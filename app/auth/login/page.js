@@ -112,7 +112,7 @@ export default function LoginPage() {
       {step === "otp" && (
         <form onSubmit={handleVerifyOtp} className="space-y-6">
           <p className="text-center text-gray-700 font-medium ">
-            Enter OTP sent to <strong>{phone}</strong>
+            We’ve sent a secure OTP from +91 8128109049 to your mobile number: <strong>{phone}</strong> 
           </p>
           <input
             type="text"
