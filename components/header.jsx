@@ -157,7 +157,7 @@ export default function Header({ cart, openCart }) {
     <>
       <div className="w-full bg-gradient-to-b from-gray-50 to-transparent sticky top-0 z-50">
         <div className="py-3 sm:py-4">
-          <header ref={headerRef} className="max-w-[1400px] mx-auto px-4">
+          <header ref={headerRef} className="max-w-[1400px] mx-auto px-4 relative">
             {/* Main Rounded Navbar */}
             <div className="relative bg-amber-50/90 backdrop-blur-md rounded-full shadow-xl border border-amber-200">
 
@@ -170,11 +170,10 @@ export default function Header({ cart, openCart }) {
                         <button
                           key={link.label}
                           onClick={() => handleNavClick(link.label, link.href)}
-                          className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
-                            activeLink === link.label
-                              ? "bg-white text-[#7d4b0e] shadow-md"
-                              : "text-gray-700 hover:text-[#7d4b0e] hover:bg-white/50"
-                          }`}
+                          className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${activeLink === link.label
+                            ? "bg-white text-[#7d4b0e] shadow-md"
+                            : "text-gray-700 hover:text-[#7d4b0e] hover:bg-white/50"
+                            }`}
                         >
                           {link.label}
                         </button>
@@ -188,11 +187,10 @@ export default function Header({ cart, openCart }) {
                         <button
                           key={link.label}
                           onClick={() => handleNavClick(link.label, link.href)}
-                          className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
-                            activeLink === link.label
-                              ? "bg-white text-[#7d4b0e] shadow-md"
-                              : "text-gray-700 hover:text-[#7d4b0e] hover:bg-white/50"
-                          }`}
+                          className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${activeLink === link.label
+                            ? "bg-white text-[#7d4b0e] shadow-md"
+                            : "text-gray-700 hover:text-[#7d4b0e] hover:bg-white/50"
+                            }`}
                         >
                           {link.label}
                         </button>
@@ -264,76 +262,99 @@ export default function Header({ cart, openCart }) {
                 </Link>
               </div>
 
+            
               {/* TABLET & MOBILE (below lg) - Compact Layout */}
               <div className="lg:hidden">
-              <div className="relative flex items-center justify-between px-3 sm:px-4 py-3 sm:py-4">
-  {/* LEFT: Menu Button */}
-  <button
-    onClick={toggleMobileMenu}
-    aria-label="Toggle Menu"
-    className="p-2 sm:p-2.5 rounded-full hover:bg-white/60 transition"
-  >
-    {isMobileMenuOpen ? (
-      <X size={26} className="text-[#7d4b0e]" />
-    ) : (
-      <Menu size={26} className="text-[#7d4b0e]" />
-    )}
-  </button>
+                <div className="relative flex items-center justify-between px-3 sm:px-4 py-3 sm:py-4">
+                  {/* LEFT: Menu Button */}
+                  <button
+                    onClick={toggleMobileMenu}
+                    aria-label="Toggle Menu"
+                    className="p-2 sm:p-2.5 rounded-full hover:bg-white/60 transition"
+                  >
+                    {isMobileMenuOpen ? (
+                      <X size={26} className="text-[#7d4b0e]" />
+                    ) : (
+                      <Menu size={26} className="text-[#7d4b0e]" />
+                    )}
+                  </button>
 
-  {/* CENTER: LOGO */}
-  <Link
-    href="/"
-    className="absolute left-1/2 -translate-x-1/2 flex items-center"
-  >
-    <img
-      src="/Megascale Logo.png"
-      alt="Megascale Logo"
-      className="h-9 xs:h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow-md"
-    />
-  </Link>
+                  {/* CENTER: LOGO */}
+                  <Link
+                    href="/"
+                    className="absolute left-1/2 -translate-x-1/2 flex items-center"
+                  >
+                    <img
+                      src="/Megascale Logo.png"
+                      alt="Megascale Logo"
+                      className="h-9 xs:h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow-md"
+                    />
+                  </Link>
 
-  {/* RIGHT: Cart + User */}
-  <div className="flex items-center gap-2 sm:gap-3">
-    {/* Cart */}
-    <button
-      onClick={openCart}
-      aria-label="Open Cart"
-      className="relative p-2 sm:p-2.5 bg-white rounded-full shadow-md hover:shadow-lg transition"
-    >
-      <ShoppingCart size={20} className="text-[#7d4b0e]" />
-      {itemCount > 0 && (
-        <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] sm:text-xs font-bold w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center">
-          {itemCount > 99 ? "99+" : itemCount}
-        </span>
-      )}
-    </button>
+                  {/* RIGHT: Cart + User */}
+                  <div className="relative flex items-center gap-2 sm:gap-3">
+                    {/* Cart */}
+                    <button
+                      onClick={openCart}
+                      aria-label="Open Cart"
+                      className="relative p-2 sm:p-2.5 bg-white rounded-full shadow-md hover:shadow-lg transition"
+                    >
+                      <ShoppingCart size={20} className="text-[#7d4b0e]" />
+                      {itemCount > 0 && (
+                        <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] sm:text-xs font-bold w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center">
+                          {itemCount > 99 ? "99+" : itemCount}
+                        </span>
+                      )}
+                    </button>
 
-    {/* User / Login */}
-    {isLoggedIn ? (
-      <button
-        onClick={toggleUserMenu}
-        aria-label="User Menu"
-        className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-[#7d4b0e] to-[#a0682a]
-                   text-white rounded-full flex items-center justify-center
-                   font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition"
-      >
-        {customerInitial}
-      </button>
-    ) : (
-      <Link
-        href="/auth/login"
-        className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#7d4b0e]
-                   text-white rounded-full text-xs sm:text-sm
-                   font-medium whitespace-nowrap"
-      >
-        Login
-      </Link>
-    )}
-  </div>
-</div>
-
+                    {/* User / Login */}
+                    {isLoggedIn ? (
+                      <div className="relative">
+                        <button
+                          onClick={toggleUserMenu}
+                          aria-label="User Menu"
+                          className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-[#7d4b0e] to-[#a0682a] text-white rounded-full flex items-center justify-center font-bold text-sm sm:text-base shadow-md hover:shadow-lg transition"
+                        >
+                          {customerInitial}
+                        </button>
+                      </div>
+                    ) : (
+                      <Link
+                        href="/auth/login"
+                        className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[#7d4b0e] text-white rounded-full text-xs sm:text-sm font-medium whitespace-nowrap"
+                      >
+                        Login
+                      </Link>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
+
+
+            {isLoggedIn && isUserMenuOpen && (
+            <div className="lg:hidden fixed top-20 right-4  w-72  sm:w-172 max-w-sm bg-white rounded-2xl shadow-2xl border border-amber-100 z-[9999]">
+    
+                <div className="p-4 border-b border-amber-100">
+                  <p className="text-sm text-gray-600">Welcome back!</p>
+                  <p className="font-bold text-[#7d4b0e] text-lg truncate">
+                    {customerName || customerInitial}
+                  </p>
+                </div>
+                <Link href="/profile" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-4 px-6 py-4 hover:bg-amber-50 transition">
+                  <UserCircle size={20} className="text-[#7d4b0e]" />
+                  <span className="font-medium">My Profile</span>
+                </Link>
+                <Link href="/order-history" onClick={() => setIsUserMenuOpen(false)} className="flex items-center gap-4 px-6 py-4 hover:bg-amber-50 transition">
+                  <Package size={20} className="text-[#7d4b0e]" />
+                  <span className="font-medium">Order History</span>
+                </Link>
+                <button onClick={handleLogout} className="flex items-center gap-4 px-6 py-4 w-full text-left text-red-600 hover:bg-red-50 transition border-t border-amber-100">
+                  <LogOut size={20} />
+                  <span className="font-medium">Logout</span>
+                </button>
+              </div>
+            )}
 
             {/* Mobile Menu Dropdown */}
             {isMobileMenuOpen && (
@@ -343,11 +364,10 @@ export default function Header({ cart, openCart }) {
                     <button
                       key={link.label}
                       onClick={() => handleNavClick(link.label, link.href)}
-                      className={`block w-full text-left px-8 py-4 text-base font-medium transition-all ${
-                        activeLink === link.label
-                          ? "bg-[#7d4b0e] text-white"
-                          : "text-gray-700 hover:bg-amber-50"
-                      }`}
+                      className={`block w-full text-left px-8 py-4 text-base font-medium transition-all ${activeLink === link.label
+                        ? "bg-[#7d4b0e] text-white"
+                        : "text-gray-700 hover:bg-amber-50"
+                        }`}
                     >
                       {link.label}
                     </button>
