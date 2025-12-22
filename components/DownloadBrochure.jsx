@@ -35,8 +35,8 @@ export default function DownloadBrochure() {
 
       // 2️⃣ Trigger file download AFTER successful save
       const link = document.createElement("a");
-      link.href = "/Khakhra Catalog without price.pdf"; // file must exist in /public
-      link.download = "/Khakhra Catalog without price.pdf";
+      link.href = "/_Khakhra Catalog.pdf"; // file must exist in /public
+      link.download = "/_Khakhra Catalog.pdf";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
