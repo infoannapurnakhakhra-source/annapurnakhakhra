@@ -11,7 +11,7 @@ export default function WhatsAppCommunitySection() {
             </p>
 
             <a
-                href="https://wa.me/91XXXXXXXXXX"
+                href="https://chat.whatsapp.com/JbZfGKxzXWB4oiQnf2AFXa"
                 target="_blank"
                 className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 
                    text-white px-8 py-3 rounded-full text-lg font-medium 
