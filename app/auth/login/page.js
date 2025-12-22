@@ -92,7 +92,7 @@ export default function LoginPage() {
         <form onSubmit={handleSendOtp} className="space-y-6">
           <input
             type="tel"
-            placeholder="Enter your phone number (e.g. 8320708895)"
+            placeholder="Enter your phone number (e.g. 98XXXXXXXX)"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             required
