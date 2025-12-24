@@ -315,43 +315,43 @@ export default function CartDrawer({
 
 
   // const subtotal = Number(subtotalAmount); // tax included
-// Subtotal includes original tax
+  // Subtotal includes original tax
 
-// 1️⃣ Included tax amount (from Shopify)
-const includedTaxAmount = calculationData?.tax?.shopMoney?.amount
-  ? Number(calculationData.tax.shopMoney.amount)
-  : 0;
-
-// 2️⃣ Calculate INCLUDED tax percentage (2 decimals)
-const includedTaxPercentRaw =
-  includedTaxAmount > 0
-    ? (includedTaxAmount / (subtotal - includedTaxAmount)) * 100
+  // 1️⃣ Included tax amount (from Shopify)
+  const includedTaxAmount = calculationData?.tax?.shopMoney?.amount
+    ? Number(calculationData.tax.shopMoney.amount)
     : 0;
 
-const includedTaxPercent = Number(includedTaxPercentRaw.toFixed(20));
+  // 2️⃣ Calculate INCLUDED tax percentage (2 decimals)
+  const includedTaxPercentRaw =
+    includedTaxAmount > 0
+      ? (includedTaxAmount / (subtotal - includedTaxAmount)) * 100
+      : 0;
 
-// 3️⃣ Multiply tax percentage × 2 (again keep 2 decimals)
-const multipliedTaxPercent = Number((includedTaxPercent * 2));
+  const includedTaxPercent = Number(includedTaxPercentRaw.toFixed(20));
 
-const basetaxAmount =Number(((subtotal * multipliedTaxPercent) / 100));
+  // 3️⃣ Multiply tax percentage × 2 (again keep 2 decimals)
+  const multipliedTaxPercent = Number((includedTaxPercent * 2));
 
-// 4️⃣ Remove INCLUDED tax from subtotal → base subtotal
-const baseSubtotal = Number((subtotal - basetaxAmount));
+  const basetaxAmount = Number(((subtotal * multipliedTaxPercent) / 100));
 
-// 5️⃣ Calculate FINAL tax using multiplied percentage
-const taxAmount = Number(
-  ((baseSubtotal * multipliedTaxPercent) / 100).toFixed(2)
-);
+  // 4️⃣ Remove INCLUDED tax from subtotal → base subtotal
+  const baseSubtotal = Number((subtotal - basetaxAmount));
 
-// 6️⃣ Shipping
-const shippingAmount = calculationData?.shipping?.price?.amount
-  ? Number(calculationData.shipping.price.amount)
-  : 0;
+  // 5️⃣ Calculate FINAL tax using multiplied percentage
+  const taxAmount = Number(
+    ((baseSubtotal * multipliedTaxPercent) / 100).toFixed(2)
+  );
 
-// 7️⃣ Final total
-const totalAmount = Number(
-  (subtotal + shippingAmount).toFixed(2)
-);
+  // 6️⃣ Shipping
+  const shippingAmount = calculationData?.shipping?.price?.amount
+    ? Number(calculationData.shipping.price.amount)
+    : 0;
+
+  // 7️⃣ Final total
+  const totalAmount = Number(
+    (subtotal + shippingAmount).toFixed(2)
+  );
 
 
 
@@ -500,7 +500,8 @@ const totalAmount = Number(
         setAddress(defaultAddress);
         setAddressFetched(false);
         alert(`Order Placed Successfully!\nOrder ID: ${data?.order?.data?.draftOrderComplete?.draftOrder?.order?.name}`);
-        window.location.replace(`/thank-you?order=${orderId}`);
+        // PASS TOTAL AMOUNT TO THANK YOU PAGE
+        window.location.replace(`/thank-you?order=${orderId}&amount=${totalAmount}&currency=INR`);
         return;
       } else {
         alert("Order failed: " + (data.error || "Try again"));
@@ -523,6 +524,28 @@ const totalAmount = Number(
     setAddressFetched(false);
   };
   const handleProceedToCheckout = () => {
+    // TRACKING CODE START
+    if (typeof window.fbq !== 'undefined') {
+      window.fbq('track', 'InitiateCheckout', {
+        value: totalAmount,
+        currency: 'INR',
+        num_items: cart?.lines?.edges?.length || 0
+      });
+    }
+    if (typeof window.gtag !== 'undefined') {
+      window.gtag('event', 'begin_checkout', {
+        value: totalAmount,
+        currency: 'INR',
+        items: cart?.lines?.edges?.map(edge => ({
+          item_id: edge.node.merchandise.id,
+          item_name: edge.node.merchandise.product.title,
+          price: edge.node.merchandise.price.amount,
+          quantity: edge.node.quantity
+        }))
+      });
+    }
+    // TRACKING CODE END
+
     if (isLoggedIn) {
       setCheckoutStep(3);
     } else {
@@ -824,7 +847,7 @@ const totalAmount = Number(
                           </div>
                           <h4 className="text-lg font-semibold text-gray-900">Delivery Address</h4>
                         </div>
-                       
+
                       </div>
                       {isLoggedIn && addressFetched && (
                         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4 text-sm">
