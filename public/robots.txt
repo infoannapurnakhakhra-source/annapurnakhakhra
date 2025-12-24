@@ -1,0 +1,86 @@
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃ Robots & Agent Policy – SEO Optimized (Next.js)                      ┃
+# ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+# ┃ Allow: home, collections, products, blogs, pages & policies          ┃
+# ┃ Disallow: cart, checkout, admin, system & duplicate URLs             ┃
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+User-agent: *
+# ✅ Allow main and SEO content
+Allow: /$
+Allow: /collections
+Allow: /collections/
+Allow: /products/
+Allow: /blogs/
+Allow: /pages/
+Allow: /search
+Allow: /policies/return-policy
+Allow: /policies/privacy-policy
+
+# 🚫 Block non-SEO & internal pages
+Disallow: /admin
+Disallow: /cart
+Disallow: /carts
+Disallow: /orders
+Disallow: /checkout
+Disallow: /checkouts/
+Disallow: /account
+
+# 🚫 Block duplicate / filtered URLs
+Disallow: /*?*
+Disallow: /*&*
+Disallow: /*sort_by*
+Disallow: /*filter*
+
+# 🚫 Block preview / test URLs
+Disallow: /*preview*
+Disallow: /*test*
+Disallow: /*debug*
+
+# 🚫 Block internal system files
+Disallow: /.well-known/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+
+# 🗺️ Sitemap
+Sitemap: https://annapurnakhakhra.megascale.co.in/sitemap.xml
+
+
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃ Specific bot rules                                                   ┃
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+# Google AdsBot – strict checkout blocking
+User-agent: adsbot-google
+Disallow: /checkout
+Disallow: /checkouts/
+Disallow: /cart
+Disallow: /carts
+Disallow: /orders
+Disallow: /*preview*
+
+# Block aggressive scrapers
+User-agent: Nutch
+Disallow: /
+
+# Ahrefs – slow crawl
+User-agent: AhrefsBot
+Crawl-delay: 10
+Disallow: /cart
+Disallow: /checkout
+Disallow: /admin
+
+User-agent: AhrefsSiteAudit
+Crawl-delay: 10
+Disallow: /cart
+Disallow: /checkout
+Disallow: /admin
+
+# MJ12bot – slow down
+User-agent: MJ12bot
+Crawl-delay: 10
+
+# Pinterest – allowed but controlled
+User-agent: Pinterest
+Crawl-delay: 1
