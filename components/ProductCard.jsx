@@ -66,8 +66,8 @@ export default function ProductCard({ product }) {
 
     const customerId = localStorage.getItem("customerShopifyId");
     const variantId = product.variantId.includes("gid://")
-    ? product.variantId.split("/").pop()
-    : product.variantId;
+      ? product.variantId.split("/").pop()
+      : product.variantId;
     setLoading(true);
 
     try {
@@ -90,14 +90,44 @@ export default function ProductCard({ product }) {
       // 🔥 YE LINE ADD KARO – cartId ko localStorage mein save karo
       if (data.cart?.id) {
         localStorage.setItem("guestCartId", data.cart.id);
-        localStorage.setItem("cartId", data.cart.id); 
+        localStorage.setItem("cartId", data.cart.id);
       }
+
+      // TRACKING CODE START
+      const priceVal = Number(product?.price?.amount || 0);
+      const currencyVal = product?.price?.currencyCode || 'INR';
+
+      // GA4
+      if (typeof window.gtag !== 'undefined') {
+        window.gtag('event', 'add_to_cart', {
+          currency: currencyVal,
+          value: priceVal,
+          items: [{
+            item_id: product.id,
+            item_name: product.title,
+            price: priceVal,
+            quantity: 1
+          }]
+        });
+      }
+
+      // Meta Pixel
+      if (typeof window.fbq !== 'undefined') {
+        window.fbq('track', 'AddToCart', {
+          content_ids: [product.id],
+          content_name: product.title,
+          currency: currencyVal,
+          value: priceVal,
+          content_type: 'product'
+        });
+      }
+      // TRACKING CODE END
 
       // Events dispatch karo
       window.dispatchEvent(new Event("cart-updated"));
       window.dispatchEvent(new Event("open-cart-drawer"));
 
-     
+
 
     } catch (err) {
       console.error("Add to cart error:", err);
@@ -143,7 +173,7 @@ export default function ProductCard({ product }) {
             // scale: 1.02,
             // boxShadow: "0px 25px 40px rgba(0,0,0,0.15)",
           }}
-         
+
           className="bg-white/90 backdrop-blur-md border border-white/30 hover:shadow-2xl rounded-3xl overflow-hidden px-3 pb-6 pt-3 group cursor-pointer"
         >
           {/* IMAGE */}
