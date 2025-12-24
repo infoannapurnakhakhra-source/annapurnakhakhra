@@ -1,5 +1,6 @@
 "use client";
 import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { CheckCircle, Package, ShoppingBag, ArrowLeft } from "lucide-react";
 
@@ -11,6 +12,32 @@ export default function ThankYouPage() {
   if (typeof window !== "undefined") {
     localStorage.removeItem("recentOrderId");
   }
+
+  // Add this useEffect to track the purchase
+  useEffect(() => {
+    const amount = searchParams.get('amount') || '0';
+    const currency = searchParams.get('currency') || 'INR';
+
+    if (orderId && amount) {
+      // 1. Google Analytics Purchase
+      if (typeof window.gtag !== 'undefined') {
+        window.gtag('event', 'purchase', {
+          transaction_id: orderId,
+          value: parseFloat(amount),
+          currency: currency,
+        });
+      }
+
+      // 2. Meta Pixel Purchase
+      if (typeof window.fbq !== 'undefined') {
+        window.fbq('track', 'Purchase', {
+          value: parseFloat(amount),
+          currency: currency,
+          content_name: 'Order #' + orderId,
+        });
+      }
+    }
+  }, [orderId, searchParams]);
 
   return (
     <>
